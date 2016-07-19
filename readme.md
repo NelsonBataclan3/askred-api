@@ -45,7 +45,7 @@ http://<url_to_api>/api/status/<hash>
 
 Where:
 
-* `<hash>` is your unique question identifier given back to you via the **Submitting a question** API.
+* `<hash>` is your unique question identifier given back to you via the **Submitting a question** API. It is **randomly generated** per question.
 
 On **success**, returns:
 
