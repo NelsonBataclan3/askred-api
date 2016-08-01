@@ -54,10 +54,11 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Ask Red
                 </a>
-                
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url("/logout") }}">Sign Out</a></li>
-                </ul>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url("/logout") }}">Sign Out</a></li>
+                    </ul>
+                </div>
             </div>
 
         </div>
