@@ -55,7 +55,7 @@
                     Ask Red
                 </a>
                 
-                <ul class="nav navbar navbar-right">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url("/logout") }}">Sign Out</a></li>
                 </ul>
             </div>
