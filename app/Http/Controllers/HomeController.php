@@ -102,7 +102,7 @@ class HomeController extends Controller
 
     public function getDepartments()
     {
-        return view('departments', ['departments' => Department::orderBy('id', 'DESC')->paginate(10)]);
+        return view('departments', ['departments' => Department::withTrashed()->orderBy('id', 'DESC')->paginate(10)]);
     }
 
     public function saveDepartment(Request $request)
@@ -121,6 +121,15 @@ class HomeController extends Controller
         $dept->delete();
 
         $request->session()->flash('success', 'Department deleted.');
+        return redirect('/departments');
+    }
+
+    public function restoreDepartment(Request $request, $id)
+    {
+        $dept = Department::withTrashed()->findOrFail($id);
+        $dept->restore();
+
+        $request->session()->flash('success', 'Department restored.');
         return redirect('/departments');
     }
 

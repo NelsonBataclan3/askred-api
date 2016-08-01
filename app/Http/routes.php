@@ -35,6 +35,7 @@ Route::get('/users/restore/{id}', 'HomeController@restoreUser');
 Route::get('/departments', 'HomeController@getDepartments');
 Route::post('/departments/save', 'HomeController@saveDepartment');
 Route::get('/departments/delete/{id}', 'HomeController@deleteDepartment');
+Route::get('/departments/restore/{id}', 'HomeController@restoreDepartment');
 
 Route::get('/api/send/{asker}/{question}', 'ApiController@addQuestion');
 Route::get('/api/status/{hash}', 'ApiController@getStatus');
