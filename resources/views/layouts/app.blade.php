@@ -54,6 +54,10 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Ask Red
                 </a>
+                
+                <ul class="nav navbar navbar-right">
+                    <li><a href="{{ url("/logout") }}">Sign Out</a></li>
+                </ul>
             </div>
 
         </div>
