@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (count(\App\User::all()) == 0)
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -84,4 +85,16 @@
         </div>
     </div>
 </div>
+@else
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Sorry!</div>
+                    <div class="panel-body">
+                        <p>All users must be created from within the system.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+@endif
 @endsection
