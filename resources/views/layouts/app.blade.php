@@ -55,7 +55,7 @@
                     Ask Red
                 </a>
             </div>
-            
+            @if (!Auth::guest())
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -68,6 +68,7 @@
                     </li>
                 </ul>
             </div>
+            @endif
         </div>
     </nav>
 
