@@ -47,7 +47,7 @@
             @else
                 @foreach ($questions as $question)
                     <tr>
-                        <td>{{ $question->question }}</td>
+                        <td>{{ urldecode($question->question) }}</td>
                         <td class="text-center">{{ $question->answer }}</td>
                         <td class="text-center">{{ $question->asked_by }}</td>
                         <td class="text-center">{{ \Carbon\Carbon::createFromFormat("Y-m-d G:i:s", $question->created_at)->format("F j, Y g:i A") }}</td>
