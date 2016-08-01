@@ -1,8 +1,9 @@
 <?php
 
+use App\Department;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class DepartmentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(DepartmentsTableSeeder::class);
+        Department::create([
+            'name'  =>  'Office of the Registrar'
+        ]);
     }
 }

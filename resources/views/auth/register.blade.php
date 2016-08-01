@@ -7,6 +7,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
+                    <div class="alert alert-success">
+                        <p>
+                            <i class="fa fa-check fa-fw"></i> You have successfully deployed the API service. Create an administrator account below.
+                        </p>
+                    </div>
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
 
@@ -69,7 +74,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i> Register
+                                    Finish Setup <i class="fa fa-angle-right fa-fw"></i>
                                 </button>
                             </div>
                         </div>

@@ -63,6 +63,7 @@
                             <i class="fa fa-user fa-fw"></i> {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="#changePass" data-toggle="modal" data-target="#changePass"><i class="fa fa-key fa-fw"></i> Change Password</a></li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Sign Out</a></li>
                         </ul>
                     </li>
@@ -84,6 +85,9 @@
                 </a>
                 <a class="list-group-item users" href="{{ url('/users') }}">
                     <i class="fa fa-users fa-fw"></i> System Users
+                </a>
+                <a class="list-group-item departments" href="{{ url('/departments') }}">
+                    <i class="fa fa-building fa-fw"></i> Departments
                 </a>
             </div>
         </div>
@@ -156,5 +160,39 @@
             </div>
         </div>
     @endif
+
+    <div id="changePass" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <form action="{{ url("/password") }}" method="post">
+                {!! csrf_field() !!}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-key fa-fw"></i> Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="old_password">Old Password</label>
+                            <input id="old_password" type="password" class="form-control" name="old_password" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">New Password</label>
+                            <input id="password" type="password" class="form-control"  name="password" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm New Password</label>
+                            <input id="password_confirmation" type="password" class="form-control"  name="password_confirmation" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
 </body>
 </html>

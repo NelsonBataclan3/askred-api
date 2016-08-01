@@ -56,7 +56,7 @@ On **success**, returns:
 }
 ```
 
-*answered* may be true or false depending on whether or not the question has been answered.
+*answered* may be true or false depending on whether or not the question has been answered. An `answer` key is also provided containing the answer to that question.
 
 On **failure**, returns:
 

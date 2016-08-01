@@ -6,6 +6,9 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Question;
 use App\User;
+use App\Department;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -44,6 +47,7 @@ class HomeController extends Controller
         ]);
         $q = Question::findOrFail($request->id);
         $q->answer = $request->answer;
+        $q->answered_by = Auth::user()->id;
         $q->save();
 
         $request->session()->flash('success', 'Answer saved.');
@@ -52,19 +56,22 @@ class HomeController extends Controller
 
     public function users()
     {
-        return view('users', ['users' => User::withTrashed()->paginate(10)]);
+        return view('users', ['users' => User::withTrashed()->paginate(10), 'departments' => Department::all()]);
     }
 
     public function saveUser(Request $request)
     {
         $this->validate($request, [
-            'username'  =>  'required|unique:users,username',
+            'username'  =>  'required|unique:users,username|alpha_num',
             'password'  =>  'required|confirmed'
         ]);
 
         User::create([
+            'name'     => $request->name,
             'username' => $request->username,
             'password' => bcrypt($request->password),
+            'department'    =>  $request->department,
+            'type'  =>  $request->type
         ]);
 
         $request->session()->flash('success', 'User saved.');
@@ -91,5 +98,48 @@ class HomeController extends Controller
 
         $request->session()->flash('success', 'User restored.');
         return redirect('/users');
+    }
+
+    public function getDepartments()
+    {
+        return view('departments', ['departments' => Department::orderBy('id', 'DESC')->paginate(10)]);
+    }
+
+    public function saveDepartment(Request $request)
+    {
+        Department::create([
+            'name'  =>  $request->name
+        ]);
+
+        $request->session()->flash('success', 'Department saved.');
+        return redirect('/departments');
+    }
+
+    public function deleteDepartment(Request $request, $id)
+    {
+        $dept = Department::findOrFail($id);
+        $dept->delete();
+
+        $request->session()->flash('success', 'Department deleted.');
+        return redirect('/departments');
+    }
+
+    public function changePassword(Request $request)
+    {
+        // Validate
+        $this->validate($request, [
+            'password'      =>      'confirmed'
+        ]);
+
+        if (Hash::check($request->old_password, Auth::user()->password)) {
+            // Change password
+            Auth::user()->password = bcrypt($request->password);
+            Auth::user()->save();
+            $request->session()->flash('success', 'Password changed.');
+            return Redirect::back();
+        } else {
+            $request->session()->flash('error', 'Invalid old password.');
+            return Redirect::back();
+        }
     }
 }

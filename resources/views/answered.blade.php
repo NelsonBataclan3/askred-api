@@ -36,13 +36,14 @@
                 <th>Answer</th>
                 <th class="text-center">Asked by</th>
                 <th class="text-center">Asked on</th>
+                <th class="text-center">Answered by</th>
                 <th class="text-center">Answered on</th>
             </tr>
             </thead>
             <tbody>
             @if (count($questions) == 0)
                 <tr>
-                    <td colspan="5" class="text-center">No answered questions.</td>
+                    <td colspan="6" class="text-center">No answered questions.</td>
                 </tr>
             @else
                 @foreach ($questions as $question)
@@ -51,6 +52,10 @@
                         <td class="text-center">{{ $question->answer }}</td>
                         <td class="text-center">{{ $question->asked_by }}</td>
                         <td class="text-center">{{ \Carbon\Carbon::createFromFormat("Y-m-d G:i:s", $question->created_at)->format("F j, Y g:i A") }}</td>
+                        <td class="text-center">
+                            {{ \App\User::withTrashed()->find($question->answered_by)->name }}<br />
+                            <span class="text-muted">@if (\App\User::withTrashed()->find($question->answered_by)->type == "admin") Admin @else {{ \App\Department::withTrashed()->find(\App\User::withTrashed()->find($question->answered_by)->department) }}@endif</span>
+                        </td>
                         <td class="text-center">{{ \Carbon\Carbon::createFromFormat("Y-m-d G:i:s", $question->updated_at)->format("F j, Y g:i A") }}</td>
                     </tr>
                 @endforeach

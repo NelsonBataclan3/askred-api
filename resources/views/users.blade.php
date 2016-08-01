@@ -3,7 +3,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             Users
+            @if (Auth::user()->type == "admin")
             <a href="#addUser" data-toggle="modal" data-target="#addUser" class="pull-right"><i class="fa fa-plus fa-fw"></i> Add User</a>
+            @endif
         </div>
         <div class="panel-body">
             <div class="table-responsive">
@@ -11,23 +13,29 @@
                     <thead>
                     <tr>
                         <th>User</th>
+                        <th class="text-center">Account Type</th>
+                        <th class="text-center">Department</th>
                         <th class="text-center">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @if (count($users) == 0)
                         <tr>
-                            <td colspan="2" class="text-center">No users.</td>
+                            <td colspan="4" class="text-center">No users.</td>
                         </tr>
                     @else
                         @foreach ($users as $user)
                             <tr>
                                 <td>{{ $user->username }}</td>
+                                <td class="text-center">{{ ucfirst($user->type) }}</td>
+                                <td class="text-center">@if ($user->type == "admin") N/A @else {{ ucfirst(\App\Department::withTrashed()->find($user->department)['name']) }} @endif</td>
                                 <td class="text-center">
+                                    @if (Auth::user()->type == "admin")
                                     @if ($user->deleted_at == "" || $user->deleted_at == null)
                                         <a href="/users/delete/{{ $user->id }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this user?');"><i class="fa fa-trash fa-fw"></i> Delete</a>
                                     @else
                                         <a href="/users/restore/{{ $user->id }}" class="btn btn-info btn-xs" onclick="return confirm('Are you sure you want to restore this user?');"><i class="fa fa-undo fa-fw"></i> Restore</a>
+                                    @endif
                                     @endif
                                 </td>
                             </tr>
@@ -53,6 +61,17 @@
                     </div>
                     <div class="modal-body">
                         {!! csrf_field() !!}
+
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label for="name">Full Name</label>
+                            <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required />
+
+                            @if ($errors->has('username'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
 
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="username">Username</label>
@@ -86,6 +105,33 @@
                                     </span>
                             @endif
                         </div>
+
+                        <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                            <label for="type">Type</label>
+                            <select name="type" id="type" class="form-control">
+                                <option value="admin">Administrator</option>
+                                <option value="department">Department</option>
+                            </select>
+                            @if ($errors->has('type'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
+                        <div class="hidden typeform form-group{{ $errors->has('department') ? ' has-error' : '' }}">
+                            <label for="department">Department</label>
+                            <select name="department" id="department" class="form-control">
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('type'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times fa-fw"></i> Close</button>
@@ -98,6 +144,15 @@
     <script>
         $(function() {
             $('.users').addClass('active');
+        });
+
+        $('#type').change(function() {
+            var type = $('select[name=type]').val();
+            if (type == "admin") {
+                $('.typeform').addClass('hidden');
+            } else {
+                $('.typeform').removeClass('hidden');
+            }
         });
     </script>
 @endsection

@@ -41,7 +41,8 @@ class ApiController extends Controller
         } else {
             return json_encode([
                 'status'    =>  200,
-                'answered'  =>  (!empty($job->answer))
+                'answered'  =>  (!empty($job->answer)),
+                'answer'    =>  $job->answer
             ]);
         }
     }
