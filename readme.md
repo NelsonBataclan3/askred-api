@@ -16,7 +16,7 @@ http://<url_to_api>/api/send/<asker>/<question>
 
 Where:
 
-* `<asker>` is a student number or a name (depends on your developer). This is in a `text` data type in the database so that it can easily be linked to a third-party database via a second query.
+* `<asker>` is a student number or a name (depends on your use-case). This is in a `text` data type in the database so that it can easily be linked to a third-party database via a second query.
 * `<question>` is a URL-encoded question. For instance, **What does CCSS stand for?** is turned into **What%20does%20CCSS%20stand%20for%3F**
 
 On **success**, returns:
