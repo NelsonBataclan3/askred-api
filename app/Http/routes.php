@@ -28,6 +28,7 @@ Route::post('/password', 'HomeController@changePassword');
 Route::get('/home', 'HomeController@index');
 Route::post('/send', 'HomeController@saveAnswer');
 Route::get('/answered', 'HomeController@answered');
+Route::post('/answered/edit', 'HomeController@editAnswer');
 Route::get('/users', 'HomeController@users');
 Route::post('/users/save', 'HomeController@saveUser');
 Route::get('/users/delete/{id}', 'HomeController@deleteUser');

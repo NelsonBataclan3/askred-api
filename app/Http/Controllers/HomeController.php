@@ -54,6 +54,17 @@ class HomeController extends Controller
         return redirect('/home');
     }
 
+    public function editAnswer(Request $request)
+    {
+        $q = Question::findOrFail($request->id);
+        $q->answer = $request->answer;
+        $q->answered_by = Auth::user()->id;
+        $q->save();
+
+        $request->session()->flash('success', 'Answer edited.');
+        return redirect('/answered');
+    }
+
     public function users()
     {
         return view('users', ['users' => User::withTrashed()->paginate(10), 'departments' => Department::all()]);
